@@ -21,12 +21,13 @@
 
 ### 🌐 Live Cloud Deployments & Links
 
-| Service | Platform | Link / Status |
+| Service | Platform | Live URL & Deployment Status |
 | :--- | :--- | :--- |
-| **Frontend Application** | **Vercel** | [![Vercel](https://img.shields.io/badge/Vercel-Live_App-black?style=for-the-badge&logo=vercel)](https://fittrack-os.vercel.app) • [`fittrack-os.vercel.app`](https://fittrack-os.vercel.app) |
-| **Frontend Mirror** | **Netlify** | [![Netlify](https://img.shields.io/badge/Netlify-Mirror-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://fittrack-os.netlify.app) • [`fittrack-os.netlify.app`](https://fittrack-os.netlify.app) |
-| **REST API Server** | **Render** | [![Render](https://img.shields.io/badge/Render-API_Service-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://fittrack-backend.onrender.com/api/auth/health) • [`fittrack-backend.onrender.com`](https://fittrack-backend.onrender.com) |
-| **Swagger UI Docs** | **OpenAPI 3.0** | [![Swagger](https://img.shields.io/badge/Swagger-API_Docs-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://fittrack-backend.onrender.com/swagger-ui/index.html) • [`/swagger-ui/index.html`](https://fittrack-backend.onrender.com/swagger-ui/index.html) |
+| **Official Live App** | **GitHub Pages** | [![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-LIVE_NOW-222222?style=for-the-badge&logo=githubpages&logoColor=white)](https://satyamdubey845455-source.github.io/FitTrack/) • **[`satyamdubey845455-source.github.io/FitTrack`](https://satyamdubey845455-source.github.io/FitTrack/)** |
+| **Vercel Frontend** | **Vercel** | [![Vercel](https://img.shields.io/badge/Vercel-Deploy_Ready-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsatyamdubey845455-source%2FFitTrack&root-directory=frontend) • [1-Click Vercel Deploy](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsatyamdubey845455-source%2FFitTrack&root-directory=frontend) |
+| **Netlify Frontend** | **Netlify** | [![Netlify](https://img.shields.io/badge/Netlify-Deploy_Ready-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://app.netlify.com/start/deploy?repository=https://github.com/satyamdubey845455-source/FitTrack) • [1-Click Netlify Deploy](https://app.netlify.com/start/deploy?repository=https://github.com/satyamdubey845455-source/FitTrack) |
+| **REST API Server** | **Render** | [![Render](https://img.shields.io/badge/Render-Deploy_Ready-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://render.com/deploy?repo=https://github.com/satyamdubey845455-source/FitTrack) • [1-Click Render Deploy](https://render.com/deploy?repo=https://github.com/satyamdubey845455-source/FitTrack) |
+| **Swagger UI Docs** | **OpenAPI 3.0** | [![Swagger](https://img.shields.io/badge/Swagger-Local_UI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](http://localhost:8080/swagger-ui/index.html) • [`http://localhost:8080/swagger-ui/index.html`](http://localhost:8080/swagger-ui/index.html) |
 
 <br/>
 
