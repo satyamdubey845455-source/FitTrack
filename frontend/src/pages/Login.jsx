@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   const fillDemo = () => {
-    setEmail('satya@fittrack.com');
+    setEmail('satyam@fittrack.com');
     setPassword('Test@1234');
   };
 

@@ -166,3 +166,17 @@ INSERT IGNORE INTO exercises (name, muscle_group, equipment, is_custom) VALUES
 ('Elliptical', 'CARDIO', 'Elliptical Machine', false),
 ('Stair Climber', 'CARDIO', 'Stair Climber', false),
 ('HIIT (General)', 'CARDIO', 'Various', false);
+
+-- ----------------------------------------------------------------
+-- DEFAULT DEMO USER & PROFILE (Satyam Kumar Dubey)
+-- Password for both is 'Test@1234'
+-- ----------------------------------------------------------------
+
+INSERT IGNORE INTO users (id, email, full_name, password_hash, role, is_active, created_at, updated_at) VALUES
+(1, 'satyam@fittrack.com', 'Satyam Kumar Dubey', '$2a$12$.R4oZjciX2mvKZg931nFlup1avIu2H/oPShOaLDrtr7QahewdbFcK', 'USER', 1, NOW(), NOW()),
+(2, 'satya@fittrack.com', 'Satyam Kumar Dubey', '$2a$12$.R4oZjciX2mvKZg931nFlup1avIu2H/oPShOaLDrtr7QahewdbFcK', 'USER', 1, NOW(), NOW());
+
+INSERT IGNORE INTO user_profiles (id, user_id, age, gender, height_cm, weight_kg, activity_level, fitness_goal, workout_frequency, preferred_workout_time, dietary_preference, daily_calorie_target, daily_protein_target, daily_carb_target, daily_fat_target, daily_fiber_target, daily_water_target_ml, daily_sleep_target_hours, daily_added_sugar_target_g, timezone, targets_manually_overridden, updated_at) VALUES
+(1, 1, 24, 'MALE', 175.00, 68.00, 'MODERATELY_ACTIVE', 'MUSCLE_GAIN', 5, 'EVENING', 'NON_VEGETARIAN', 2450, 140.00, 260.00, 65.00, 30.00, 3500, 8.00, 25.00, 'Asia/Kolkata', 0, NOW()),
+(2, 2, 24, 'MALE', 175.00, 68.00, 'MODERATELY_ACTIVE', 'MUSCLE_GAIN', 5, 'EVENING', 'NON_VEGETARIAN', 2450, 140.00, 260.00, 65.00, 30.00, 3500, 8.00, 25.00, 'Asia/Kolkata', 0, NOW());
+

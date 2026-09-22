@@ -234,7 +234,7 @@ npm install
 npm run dev
 ```
 * **Application URL**: [`http://localhost:5173`](http://localhost:5173)
-* **Default Demo User**: `satya@fittrack.com` / `Test@1234`
+* **Default Demo User**: `satyam@fittrack.com` (or `satya@fittrack.com`) / `Test@1234`
 
 ---
 
