@@ -209,14 +209,47 @@ export default function Diet() {
   const handleCreateCustomFood = async (e) => {
     e.preventDefault();
     try {
-      await foodApi.createCustom(customFoodForm);
-      toast.success('Custom food created successfully! 🥗');
+      const payload = {
+        name: (customFoodForm.name || '').trim(),
+        category: customFoodForm.category || 'Homemade Food',
+        servingSizeG: Number(customFoodForm.servingSize) || 100,
+        servingSizeUnit: customFoodForm.servingUnit || 'g',
+        caloriesPerServing: Number(customFoodForm.calories) || 0,
+        proteinG: Number(customFoodForm.protein) || 0,
+        carbsG: Number(customFoodForm.carbs) || 0,
+        fatG: Number(customFoodForm.fat) || 0,
+        fiberG: Number(customFoodForm.fiber) || 0,
+        sugarG: Number(customFoodForm.totalSugar) || 0,
+        addedSugarG: Number(customFoodForm.addedSugar) || 0,
+        sodiumMg: Number(customFoodForm.sodium) || 0,
+      };
+      await foodApi.createCustom(payload);
+      toast.success(`"${payload.name}" created successfully! 🥗`);
       setShowCustomFoodModal(false);
+      setCustomFoodForm({
+        name: '',
+        category: 'Homemade Food',
+        servingSize: 100,
+        servingUnit: 'g',
+        calories: 150,
+        protein: 10,
+        carbs: 15,
+        fat: 5,
+        fiber: 2,
+        totalSugar: 1,
+        addedSugar: 0,
+        sodium: 120,
+      });
       setActiveFoodTab('custom');
       const res = await foodApi.getCustom();
       setSearchResults(res.data.data || []);
     } catch (err) {
-      toast.error('Failed to create custom food');
+      const errorMsg =
+        err.response?.data?.message ||
+        (err.response?.data?.data && typeof err.response.data.data === 'object'
+          ? Object.values(err.response.data.data).join(', ')
+          : 'Failed to create custom food');
+      toast.error(errorMsg);
     }
   };
 
