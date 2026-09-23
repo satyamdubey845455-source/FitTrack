@@ -16,7 +16,7 @@ import {
   FiAlertCircle,
 } from 'react-icons/fi';
 
-const MEAL_TYPES = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
+const MEAL_TYPES = ['BREAKFAST', 'LUNCH', 'SNACK', 'DINNER'];
 
 const MEAL_CONFIG = {
   BREAKFAST: {
@@ -35,14 +35,6 @@ const MEAL_CONFIG = {
     glow: 'rgba(16, 185, 129, 0.15)',
     border: 'rgba(16, 185, 129, 0.35)',
   },
-  DINNER: {
-    label: 'Dinner',
-    icon: '🌙',
-    tag: 'Evening Protein & Repair',
-    color: '#818cf8',
-    glow: 'rgba(99, 102, 241, 0.15)',
-    border: 'rgba(99, 102, 241, 0.35)',
-  },
   SNACK: {
     label: 'Snacks & Extras',
     icon: '🍎',
@@ -50,6 +42,14 @@ const MEAL_CONFIG = {
     color: '#06b6d4',
     glow: 'rgba(6, 182, 212, 0.15)',
     border: 'rgba(6, 182, 212, 0.35)',
+  },
+  DINNER: {
+    label: 'Dinner',
+    icon: '🌙',
+    tag: 'Evening Protein & Repair',
+    color: '#818cf8',
+    glow: 'rgba(99, 102, 241, 0.15)',
+    border: 'rgba(99, 102, 241, 0.35)',
   },
 };
 
