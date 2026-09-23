@@ -18,6 +18,41 @@ import {
 
 const MEAL_TYPES = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
 
+const MEAL_CONFIG = {
+  BREAKFAST: {
+    label: 'Breakfast',
+    icon: '🌅',
+    tag: 'Morning Fuel & Vitality',
+    color: '#f59e0b',
+    glow: 'rgba(245, 158, 11, 0.15)',
+    border: 'rgba(245, 158, 11, 0.35)',
+  },
+  LUNCH: {
+    label: 'Lunch',
+    icon: '☀️',
+    tag: 'Midday Power & Sustenance',
+    color: '#10b981',
+    glow: 'rgba(16, 185, 129, 0.15)',
+    border: 'rgba(16, 185, 129, 0.35)',
+  },
+  DINNER: {
+    label: 'Dinner',
+    icon: '🌙',
+    tag: 'Evening Protein & Repair',
+    color: '#818cf8',
+    glow: 'rgba(99, 102, 241, 0.15)',
+    border: 'rgba(99, 102, 241, 0.35)',
+  },
+  SNACK: {
+    label: 'Snacks & Extras',
+    icon: '🍎',
+    tag: 'Pre/Post Workout Boosters',
+    color: '#06b6d4',
+    glow: 'rgba(6, 182, 212, 0.15)',
+    border: 'rgba(6, 182, 212, 0.35)',
+  },
+};
+
 const CATEGORIES = [
   'All',
   'Indian Food',
@@ -142,6 +177,27 @@ export default function Diet() {
       fetchDietData(selectedDate);
     } catch (err) {
       toast.error('Could not create meal');
+    }
+  };
+
+  const handleQuickAddFood = async (type) => {
+    let typeMeal = meals.find((m) => m.mealType === type);
+    if (!typeMeal) {
+      try {
+        const res = await dietApi.createMeal({
+          mealType: type,
+          logDate: selectedDate,
+          notes: '',
+        });
+        typeMeal = res.data?.data;
+        await fetchDietData(selectedDate);
+      } catch (err) {
+        toast.error(`Could not initialize ${type}`);
+        return;
+      }
+    }
+    if (typeMeal?.id) {
+      handleOpenAddFood(typeMeal.id);
     }
   };
 
@@ -394,90 +450,168 @@ export default function Diet() {
         </div>
       </div>
 
-      {/* Meals Grid */}
-      <div style={dietStyles.mealsGrid}>
+      {/* Symmetrical 2x2 Meals Grid (Breakfast & Lunch on Top, Dinner & Snack on Bottom) */}
+      <div className="diet-meals-grid">
         {MEAL_TYPES.map((type) => {
           const typeMeal = meals.find((m) => m.mealType === type);
+          const config = MEAL_CONFIG[type] || {
+            label: type,
+            icon: '🍽️',
+            tag: 'Daily Nutrition',
+            color: '#818cf8',
+            glow: 'rgba(99, 102, 241, 0.15)',
+            border: 'rgba(99, 102, 241, 0.3)',
+          };
 
           return (
-            <div key={type} className="glass-panel" style={dietStyles.mealCard}>
-              <div style={dietStyles.mealCardHeader}>
-                <div>
-                  <h3 style={{ fontSize: '1.2rem', color: '#fff' }}>
-                    {type.charAt(0) + type.slice(1).toLowerCase()}
-                  </h3>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-                    {typeMeal ? `${typeMeal.totalCalories || 0} kcal` : 'Not logged'}
-                  </span>
+            <div key={type} className="diet-meal-card">
+              <div>
+                <div className="diet-meal-card-header">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div
+                      style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '12px',
+                        background: config.glow,
+                        border: `1px solid ${config.border}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '20px',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {config.icon}
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <h3 style={{ fontSize: '1.18rem', color: '#fff', margin: 0, fontWeight: 700 }}>
+                          {config.label}
+                        </h3>
+                        <span
+                          style={{
+                            fontSize: '0.74rem',
+                            fontWeight: 700,
+                            padding: '2px 8px',
+                            borderRadius: '12px',
+                            background: typeMeal && typeMeal.totalCalories > 0 ? 'rgba(99, 102, 241, 0.22)' : 'rgba(255, 255, 255, 0.05)',
+                            color: typeMeal && typeMeal.totalCalories > 0 ? '#a5b4fc' : '#64748b',
+                            border: '1px solid rgba(255, 255, 255, 0.05)',
+                          }}
+                        >
+                          🔥 {typeMeal?.totalCalories ? `${typeMeal.totalCalories} kcal` : '0 kcal'}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.76rem', color: '#94a3b8' }}>
+                        {config.tag}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <button
+                      onClick={() => handleQuickAddFood(type)}
+                      className="btn btn-primary btn-sm"
+                      style={{ fontSize: '0.78rem', padding: '6px 12px' }}
+                    >
+                      <FiPlus size={14} /> Add Food
+                    </button>
+                    {typeMeal && (
+                      <>
+                        {typeMeal.items?.length > 0 && (
+                          <button
+                            onClick={() => handleOpenSaveTemplate(typeMeal)}
+                            className="btn btn-secondary btn-sm"
+                            title="Save as Meal Template"
+                            style={{ padding: '6px 8px' }}
+                          >
+                            <FiBookmark size={13} />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteMeal(typeMeal.id)}
+                          className="btn btn-danger btn-sm"
+                          title="Delete Meal"
+                          style={{ padding: '6px 8px' }}
+                        >
+                          <FiTrash2 size={13} />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
 
-                {typeMeal ? (
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={() => handleOpenAddFood(typeMeal.id)}
-                      className="btn btn-primary btn-sm"
-                    >
-                      <FiPlus /> Add Food
-                    </button>
-                    {typeMeal.items?.length > 0 && (
-                      <button
-                        onClick={() => handleOpenSaveTemplate(typeMeal)}
-                        className="btn btn-secondary btn-sm"
-                        title="Save as Meal Template"
-                      >
-                        <FiBookmark size={14} />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleDeleteMeal(typeMeal.id)}
-                      className="btn btn-danger btn-sm"
-                      title="Delete Meal"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => handleCreateMeal(type)}
-                    className="btn btn-secondary btn-sm"
-                  >
-                    <FiPlus /> Start Meal
-                  </button>
-                )}
-              </div>
-
-              {/* Items in this meal */}
-              <div style={dietStyles.itemsList}>
-                {typeMeal?.items && typeMeal.items.length > 0 ? (
-                  typeMeal.items.map((item) => (
-                    <div key={item.id} style={dietStyles.itemRow}>
-                      <div>
-                        <div style={{ fontWeight: 600, color: '#f8fafc', fontSize: '0.92rem' }}>
-                          {item.foodName}
+                {/* Items in this meal */}
+                <div className="diet-meal-items-list">
+                  {typeMeal?.items && typeMeal.items.length > 0 ? (
+                    typeMeal.items.map((item) => (
+                      <div key={item.id} style={dietStyles.itemRow}>
+                        <div style={{ flex: 1, minWidth: 0, paddingRight: '8px' }}>
+                          <div
+                            style={{
+                              fontWeight: 600,
+                              color: '#f8fafc',
+                              fontSize: '0.9rem',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {item.foodName}
+                          </div>
+                          <div style={{ fontSize: '0.76rem', color: '#94a3b8', marginTop: '2px' }}>
+                            {item.quantity} {item.unit || 'serving'} • {item.calories} kcal • P: {item.protein}g | C: {item.carbs}g | F: {item.fat}g
+                            {item.addedSugarConsumed > 0 && (
+                              <span style={{ color: '#f59e0b', marginLeft: '6px' }}>
+                                (Sugar: {item.addedSugarConsumed.toFixed(1)}g)
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-                          {item.quantity} {item.unit || 'serving'} • {item.calories} kcal • P: {item.protein}g | C: {item.carbs}g | F: {item.fat}g
-                          {item.addedSugarConsumed > 0 && (
-                            <span style={{ color: '#f59e0b', marginLeft: '6px' }}>
-                              (Added Sugar: {item.addedSugarConsumed.toFixed(1)}g)
-                            </span>
-                          )}
-                        </div>
+                        <button
+                          onClick={() => handleDeleteItem(typeMeal.id, item.id)}
+                          style={dietStyles.removeFoodBtn}
+                          title="Remove food"
+                        >
+                          <FiTrash2 size={14} />
+                        </button>
                       </div>
+                    ))
+                  ) : (
+                    <div className="diet-empty-meal-box">
+                      <span style={{ fontSize: '1.6rem', opacity: 0.9 }}>{config.icon}</span>
+                      <p style={{ margin: 0, fontSize: '0.82rem', color: '#64748b' }}>
+                        No foods logged in {config.label.toLowerCase()} yet
+                      </p>
                       <button
-                        onClick={() => handleDeleteItem(typeMeal.id, item.id)}
-                        style={dietStyles.removeFoodBtn}
-                        title="Remove food"
+                        onClick={() => handleQuickAddFood(type)}
+                        className="btn btn-secondary btn-sm"
+                        style={{ fontSize: '0.76rem', padding: '5px 12px' }}
                       >
-                        <FiTrash2 size={14} />
+                        <FiPlus size={12} /> Log {config.label}
                       </button>
                     </div>
-                  ))
-                ) : (
-                  <div style={dietStyles.emptyMealNote}>
-                    {typeMeal ? 'No foods added yet. Click "+ Add Food".' : 'No items.'}
-                  </div>
-                )}
+                  )}
+                </div>
+              </div>
+
+              {/* Card Footer with Macro Subtotals */}
+              <div className="diet-meal-card-footer">
+                <span style={{ color: '#94a3b8' }}>
+                  {typeMeal?.items?.length || 0} {typeMeal?.items?.length === 1 ? 'item' : 'items'} logged
+                </span>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <span>
+                    <strong style={{ color: '#818cf8' }}>P:</strong> {typeMeal?.totalProtein ? Number(typeMeal.totalProtein).toFixed(1) : 0}g
+                  </span>
+                  <span>
+                    <strong style={{ color: '#38bdf8' }}>C:</strong> {typeMeal?.totalCarbs ? Number(typeMeal.totalCarbs).toFixed(1) : 0}g
+                  </span>
+                  <span>
+                    <strong style={{ color: '#fb923c' }}>F:</strong> {typeMeal?.totalFat ? Number(typeMeal.totalFat).toFixed(1) : 0}g
+                  </span>
+                </div>
               </div>
             </div>
           );

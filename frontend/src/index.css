@@ -319,3 +319,89 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 90px;
   }
 }
+
+/* ── Balanced Responsive Meals Grid (2x2 on Desktop, 4x1 on Ultra-Wide) ── */
+.diet-meals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+@media (min-width: 1680px) {
+  .diet-meals-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .diet-meals-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.diet-meal-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: var(--radius-lg);
+  min-height: 310px;
+  background: var(--gradient-card);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+
+.diet-meal-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.diet-meal-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 14px;
+}
+
+.diet-meal-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 140px;
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 14px 0;
+  padding-right: 4px;
+}
+
+.diet-empty-meal-box {
+  flex: 1;
+  min-height: 140px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  margin: 14px 0;
+  background: rgba(255, 255, 255, 0.015);
+  text-align: center;
+}
+
+.diet-meal-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
