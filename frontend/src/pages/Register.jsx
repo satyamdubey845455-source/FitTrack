@@ -37,8 +37,17 @@ export default function Register() {
       toast.success('Account created successfully!');
       navigate('/settings'); // go directly to profile setup
     } catch (err) {
-      const msg = err.response?.data?.message || 'Registration failed';
-      toast.error(msg);
+      let msg = err.response?.data?.message;
+      if (!msg) {
+        if (err.code === 'ERR_NETWORK' || !err.response) {
+          msg = 'Cannot connect to backend. Please ensure your phone is connected to the same Wi-Fi as your laptop (http://192.168.1.42:5173).';
+        } else {
+          msg = err.message || 'Registration failed. Please check details.';
+        }
+      } else if (msg.toLowerCase().includes('already exists')) {
+        msg = 'This email is already registered! Please tap "Sign In" below.';
+      }
+      toast.error(msg, { duration: 5000 });
     } finally {
       setLoading(false);
     }
