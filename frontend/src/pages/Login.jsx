@@ -30,6 +30,24 @@ export default function Login() {
     }
   };
 
+  const handleQuickDemo = async () => {
+    const demoEmail = 'satyam@fittrack.com';
+    const demoPassword = 'Test@1234';
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setLoading(true);
+    try {
+      await login({ email: demoEmail, password: demoPassword });
+      toast.success('Welcome back, Satyam!');
+      navigate('/dashboard');
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Login failed. Please verify credentials.';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fillDemo = () => {
     setEmail('satyam@fittrack.com');
     setPassword('Test@1234');
@@ -89,14 +107,26 @@ export default function Login() {
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '16px' }}>
+        <div style={{ textAlign: 'center', marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <button
             type="button"
-            onClick={fillDemo}
-            className="btn btn-secondary btn-sm"
-            style={{ fontSize: '0.78rem', opacity: 0.85 }}
+            onClick={handleQuickDemo}
+            className="btn btn-secondary"
+            style={{
+              width: '100%',
+              fontSize: '0.85rem',
+              padding: '11px',
+              background: 'rgba(99, 102, 241, 0.15)',
+              borderColor: 'rgba(99, 102, 241, 0.4)',
+              color: '#a5b4fc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+            disabled={loading}
           >
-            ⚡ Quick Fill Test Account
+            ⚡ 1-Tap Demo Sign In (Satyam)
           </button>
         </div>
 
