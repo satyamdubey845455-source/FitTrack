@@ -57,7 +57,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside style={styles.sidebar}>
+    <aside className="desktop-sidebar" style={styles.sidebar}>
       {/* Brand Header */}
       <div style={styles.brand}>
         <div style={styles.logoIcon}>
